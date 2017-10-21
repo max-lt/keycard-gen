@@ -1,9 +1,9 @@
 const dom = {};
 
-window.onload = function () {
+window.addEventListener('load', () => {
     dom.key = document.getElementById("key");
     dom.keycard = document.getElementById("keycardData");
-};
+});
 
 function toHex(n) {
     if (n < 16) return '0' + n.toString(16);
@@ -70,6 +70,8 @@ function genKeycard() {
         alert("Invalid key");
         return;
     }
+
+    if (drawQRCode) drawQRCode(key);
 
     key = arrayFromHex(key);
 
