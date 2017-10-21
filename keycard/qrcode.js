@@ -16,7 +16,5 @@ function drawQRCode(data) {
         correctLevel: QRCode.CorrectLevel.H
     });
 
-    const text = data.slice(0, 16) + ' ' + data.slice(-16);
-    console.log(text);
-    dom.qrdata.innerText = text;
+    dom.qrdata.innerText = data.slice(0, 16) + ' ' + data.slice(-16);
 }

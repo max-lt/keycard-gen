@@ -10,35 +10,22 @@ function toHex(n) {
     return n.toString(16);
 }
 
-function arrayToHex(arr) {
-    let tmp = '';
-    for (let i = 0; i < arr.length; i++) {
-        tmp += toHex(arr[i]);
-    }
-    return tmp;
-}
-
-function arrayFromHex(str) {
-    let buf = new Uint8Array(str.length / 2);
-    for (let i = 0; i < str.length; i++) {
-        buf[i] = parseInt(str.substr(i * 2, 2), 16);
-    }
-    return buf;
-}
-
 /**
  * @param {Uint8Array} keycardKey
  * @return {Uint8Array}
  */
 function getKeycardData(keycardKey) {
-    let tmp = '', i;
-    for (i = 0; i < 0x50; i++) {
-        tmp += toHex(i);
-    }
-    const cipher = new JSUCrypt.cipher.DES(JSUCrypt.padder.None, JSUCrypt.cipher.MODE_CBC);
-    cipher.init(new JSUCrypt.key.DESKey(Array.from(keycardKey)), JSUCrypt.cipher.MODE_ENCRYPT);
-    let keycardData = cipher.finalize(tmp);
-    tmp = new Uint8Array(0x50);
+    const iv = new node.Buffer(8);
+    let tmp = new node.Buffer(0x50), i;
+    for (i = 0; i < 0x50; i++) tmp[i] = i;
+
+    // const cipher = new JSUCrypt.cipher.DES(JSUCrypt.padder.None, JSUCrypt.cipher.MODE_CBC);
+    const cipher = node.crypto.createCipheriv('des-ede-cbc', keycardKey, iv);
+
+    // cipher.init(new JSUCrypt.key.DESKey(Array.from(keycardKey)), JSUCrypt.cipher.MODE_ENCRYPT);
+    // let keycardData = cipher.finalize(tmp);
+    let keycardData = cipher.update(tmp);
+
     for (i = 0; i < 0x50; i++) {
         tmp[i] = ((keycardData[i] >> 4) & 0x0f) ^ (keycardData[i] & 0x0f);
     }
@@ -51,10 +38,10 @@ function genKey() {
         alert("Secure random API not available");
         return;
     }
-    const array = new Uint8Array(16);
+    const array = new node.Buffer(16);
     window.crypto.getRandomValues(array);
 
-    dom.key.value = arrayToHex(array);
+    dom.key.value = array.toString('hex');
 
     genKeycard();
 }
@@ -73,7 +60,7 @@ function genKeycard() {
 
     if (drawQRCode) drawQRCode(key);
 
-    key = arrayFromHex(key);
+    key = node.Buffer.from(key, 'hex');
 
     const touch = (e) => document.createElement(e);
     const keycardData = getKeycardData(key);
