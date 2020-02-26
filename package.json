@@ -1,0 +1,20 @@
+{
+  "name": "keycard-gen",
+  "version": "1.0.0",
+  "description": "Repository to generate a ledger wallet security card",
+  "main": "\"\"",
+  "scripts": {
+    "browserify": "browserify --s=node -o keycard/thirdparty/node.bro.js node.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/max-lt/keycard-gen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/max-lt/keycard-gen/issues"
+  },
+  "homepage": "https://github.com/max-lt/keycard-gen#readme",
+  "devDependencies": {
+    "browserify": "^16.5.0"
+  }
+}
