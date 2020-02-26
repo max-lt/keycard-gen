@@ -1,3 +1,3 @@
-const crypto = require('crypto')
+const crypto = require('crypto');
 
-module.exports = {crypto, Buffer: Buffer}
+module.exports = { crypto, Buffer: Buffer };
