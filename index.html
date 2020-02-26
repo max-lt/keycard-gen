@@ -1,0 +1,37 @@
+<html>
+<head>
+    <script src="src/thirdparty/node.bro.js"></script>
+    <script src="src/thirdparty/qrcode.min.js"></script>
+
+    <script src="src/keycard.js"></script>
+    <script src="src/qrcode.js"></script>
+
+    <link href="src/keycard.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<h1 class="no-print">Keycard generator</h1>
+
+<h2 class="no-print">Enter the keycard key</h2>
+
+<div style="display: inline-flex">
+    <div class="no-print">
+        <label for="key"></label><input type="text" id="key" placeholder="key" size="35"/>
+        <br>
+        <button id="genKey" onClick="genKey()">Generate random key</button>
+        <button id="genKeycard" onClick="genKeycard()">Generate keycard</button>
+    </div>
+    <div id="qrcontainer">
+        <div id="qrcode"></div>
+        <div id="qrdata"></div>
+    </div>
+</div>
+
+<div class="print-only sep"></div>
+
+<h2>Keycard</h2>
+
+<div id="keycardData"></div>
+
+</body>
+</html>
